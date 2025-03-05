@@ -1,0 +1,4 @@
+LIBRARY dinput
+
+EXPORTS
+	DirectInputCreateA=DirectInputCreateA_stub

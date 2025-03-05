@@ -5,6 +5,9 @@
 #include "hook.h"
 #include "iat.h"
 
+// MOUSE SCALE FOR X
+#define MOUSE_MOVE_SCALE_X 4.0f
+
 static int init_stub(void);
 static int init_hook(void);
 
@@ -21,10 +24,16 @@ static CallableGetCursorPos GetCursorPosOrig = NULL;
 
 BOOL WINAPI GetCursorPosStub(LPPOINT lpPoint) {
 	BOOL ret = FALSE;
+	LONG x = 0, y = 0;
 
 	ret = GetCursorPosOrig(lpPoint);
 
-	SetCursorPos(320, 240);
+	x = lpPoint->x;
+	y = lpPoint->y;
+
+	lpPoint->x = (LONG)((float)(x - 320) * MOUSE_MOVE_SCALE_X);
+
+	SetCursorPos(320, y);
 
 	return ret;
 }
